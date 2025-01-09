@@ -30,8 +30,9 @@ class Matiere
     /**
      * @var Collection<int, Stage>
      */
-    #[ORM\OneToMany(targetEntity: Stage::class, mappedBy: 'matiere')]
-    private Collection $stage;
+    #[ORM\ManyToMany(targetEntity: Stage::class, mappedBy: 'matieres')]
+    private Collection $stages;    
+
 
     public function __construct()
     {

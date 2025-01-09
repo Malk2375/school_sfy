@@ -30,8 +30,9 @@ class Stage
     #[ORM\OneToMany(targetEntity: Stagiaire::class, mappedBy: 'stage')]
     private Collection $stagiaire;
 
-    #[ORM\ManyToOne(inversedBy: 'stage')]
-    private ?Matiere $matiere = null;
+    #[ORM\ManyToMany(targetEntity: Matiere::class, inversedBy: 'stages')]
+    private Collection $matieres;
+    
 
     public function __construct()
     {
