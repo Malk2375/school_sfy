@@ -31,13 +31,13 @@ class Matiere
      * @var Collection<int, Stage>
      */
     #[ORM\ManyToMany(targetEntity: Stage::class, mappedBy: 'matieres')]
-    private Collection $stages;    
+    private Collection $stages;
 
 
     public function __construct()
     {
         $this->prof = new ArrayCollection();
-        $this->stage = new ArrayCollection();
+        $this->stages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,25 +104,25 @@ class Matiere
      */
     public function getStage(): Collection
     {
-        return $this->stage;
+        return $this->stages;
     }
 
-    public function addStage(Stage $stage): static
+    public function addStage(Stage $stages): static
     {
-        if (!$this->stage->contains($stage)) {
-            $this->stage->add($stage);
-            $stage->setMatiere($this);
+        if (!$this->stages->contains($stages)) {
+            $this->stages->add($stages);
+            $stages->setMatiere($this);
         }
 
         return $this;
     }
 
-    public function removeStage(Stage $stage): static
+    public function removeStage(Stage $stages): static
     {
-        if ($this->stage->removeElement($stage)) {
+        if ($this->stages->removeElement($stages)) {
             // set the owning side to null (unless already changed)
-            if ($stage->getMatiere() === $this) {
-                $stage->setMatiere(null);
+            if ($stages->getMatiere() === $this) {
+                $stages->setMatiere(null);
             }
         }
 
