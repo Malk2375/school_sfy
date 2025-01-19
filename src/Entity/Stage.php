@@ -27,8 +27,8 @@ class Stage
     /**
      * @var Collection<int, Stagiaire>
      */
-    #[ORM\OneToMany(targetEntity: Stagiaire::class, mappedBy: 'stage')]
-    private Collection $stagiaire;
+    #[ORM\ManyToMany(targetEntity: Stagiaire::class, inversedBy: "stages")]
+    private Collection $stagiaires;
 
     #[ORM\ManyToMany(targetEntity: Matiere::class, inversedBy: 'stages')]
     private Collection $matieres;
@@ -37,6 +37,7 @@ class Stage
     public function __construct()
     {
         $this->stagiaire = new ArrayCollection();
+        $this->matiere = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,25 +86,25 @@ class Stage
      */
     public function getStagiaire(): Collection
     {
-        return $this->stagiaire;
+        return $this->stagiaires;
     }
 
-    public function addStagiaire(Stagiaire $stagiaire): static
+    public function addStagiaire(Stagiaire $stagiaires): static
     {
-        if (!$this->stagiaire->contains($stagiaire)) {
-            $this->stagiaire->add($stagiaire);
-            $stagiaire->setStage($this);
+        if (!$this->stagiaires->contains($stagiaires)) {
+            $this->stagiaires->add($stagiaires);
+            $stagiaires->setStage($this);
         }
 
         return $this;
     }
 
-    public function removeStagiaire(Stagiaire $stagiaire): static
+    public function removeStagiaire(Stagiaire $stagiaires): static
     {
-        if ($this->stagiaire->removeElement($stagiaire)) {
+        if ($this->stagiaires->removeElement($stagiaires)) {
             // set the owning side to null (unless already changed)
-            if ($stagiaire->getStage() === $this) {
-                $stagiaire->setStage(null);
+            if ($stagiaires->getStage() === $this) {
+                $stagiaires->setStage(null);
             }
         }
 

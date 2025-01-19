@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     {
         // $matiere = new Matiere();
         // dd($matiere);
+    
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);

@@ -15,14 +15,22 @@
         <header class="p-4 bg-secondary mb-3">
             
             <nav> 
+                {% if app.user|default %}
+                    <a href="{{ path('app_logout') }}"  class="btn btn-danger">Deconnexion</a>
+                {% else %}
+                    Vous avez un compte ?
                     <a href="{{ path('app_login') }}"  class="btn btn-success">Connexion</a>
+                    Si non : 
                     <a href="{{ path('app_register') }}"  class="btn btn-success">Inscription</a>
+                {% endif %}
             </nav>
         </header>
         <main class="container mb-3">
             {% block body %}  {% endblock %}
         </main>
 
-        <footer class="mt-5"></footer>
+        <footer class="mt-5">
+            <a href="{{ path('app_home') }}">Retour au HOME</a>
+        </footer>
     </body>
 </html>

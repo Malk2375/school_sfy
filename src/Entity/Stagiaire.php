@@ -34,8 +34,8 @@ class Stagiaire
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateInscription = null;
 
-    #[ORM\ManyToOne(inversedBy: 'stagiaire')]
-    private ?Stage $stage = null;
+    #[ORM\ManyToMany(inversedBy: 'stagiaires')]
+    private ?Stage $stages = null;
 
     public function getId(): ?int
     {
@@ -104,12 +104,12 @@ class Stagiaire
 
     public function getStage(): ?Stage
     {
-        return $this->stage;
+        return $this->stages;
     }
 
-    public function setStage(?Stage $stage): static
+    public function setStage(?Stage $stages): static
     {
-        $this->stage = $stage;
+        $this->stages = $stages;
 
         return $this;
     }

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/inscription', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $em): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -25,12 +25,20 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
+            $email = $form->get('email')->getData();
+            $existingUser = $em->getRepository(User::class)->findOneBy(['email' => $email]);
+            if ($existingUser) {
+                // handle the case when the user already exists
+                return $this->redirectToRoute('app_home');
+            }
 
             // encode the plain password
+            $user = new User();
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+
+            $em->persist($user);
+            $em->flush();
 
             // do anything else you need here, like send an email
 
